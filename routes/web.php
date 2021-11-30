@@ -22,3 +22,5 @@ Route::get('/', function () {
 });
 
 Route::post('/sync', [PairsController::class, 'update']);
+
+Route::get('/sync', [PairsController::class, 'get']);

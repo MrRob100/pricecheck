@@ -16,4 +16,9 @@ class PairsController extends Controller
 
         return true;
     }
+
+    public function get()
+    {
+        dd('get');
+    }
 }
