@@ -11,14 +11,14 @@ class PriceCheckCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'check:change';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Check Price Change';
 
     /**
      * Create a new command instance.
@@ -37,6 +37,17 @@ class PriceCheckCommand extends Command
      */
     public function handle()
     {
+        $symbols = ['BNB', 'AKRO', 'OM'];
+
+        foreach($symbols as $symbol) {
+            $candles = json_decode(file_get_contents("https://api.binance.com/api/v3/klines?symbol={$symbol}USDT&interval=1m&limit=60"), true);
+            $hChange = ( $candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
+
+            if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
+                dump("$symbol changed $hChange % last hour");
+            }
+        }
+
         return Command::SUCCESS;
     }
 }
