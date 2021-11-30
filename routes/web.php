@@ -21,6 +21,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/sync', [PairsController::class, 'update']);
+Route::post('sync', [PairsController::class, 'update']);
 
-Route::get('/sync', [PairsController::class, 'get']);
+Route::get('sync', [PairsController::class, 'get']);
