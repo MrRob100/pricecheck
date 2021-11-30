@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    dd(json_decode(file_get_contents(public_path() . '/pairs.json')));
+    dump(json_decode(file_get_contents(public_path() . '/pairs.json')));
 
     return view('welcome');
 });
