@@ -21,4 +21,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/add', [PairsController::class, 'update']);
+Route::post('/sync', [PairsController::class, 'update']);
