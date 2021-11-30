@@ -18,6 +18,8 @@ Route::get('/', function () {
 
     dump(json_decode(file_get_contents(public_path() . '/pairs.json')));
 
+    dump(\Illuminate\Support\Facades\Artisan::command('route:list'));
+
     return view('welcome');
 });
 
