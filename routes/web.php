@@ -18,7 +18,7 @@ Route::get('/', function () {
 
     dump(json_decode(file_get_contents(public_path() . '/pairs.json')));
 
-    dump(\Illuminate\Support\Facades\Artisan::command('route:list'));
+    dump(shell_exec('php artisan route:list'));
 
     return view('welcome');
 });
