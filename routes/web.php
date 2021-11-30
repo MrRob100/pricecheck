@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PairsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::post('/add', );
+Route::post('/add', [PairsController::class, 'update']);
