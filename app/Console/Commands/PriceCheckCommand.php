@@ -44,8 +44,8 @@ class PriceCheckCommand extends Command
             dump($pairs);
             dd($pair->symbol1);
 
-            $this->calc($pair->symbol1);
-            $this->calc($pair->symbol2);
+            $this->calc($pair->s1);
+            $this->calc($pair->s2);
         }
 
         return Command::SUCCESS;
