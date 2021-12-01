@@ -37,15 +37,17 @@ class PriceCheckCommand extends Command
      */
     public function handle()
     {
-        $pairs = json_decode(file_get_contents(public_path() . '/pairs.json'), true);
+        $path = public_path() . '/pairs/pairs.json';
 
-        foreach($pairs as $pair) {
+        if (file_exists($path)) {
+            $pairs = json_decode(file_get_contents($path), true);
 
-            dump($pairs);
-            dd($pair);
-
-            $this->calc($pair->s1);
-            $this->calc($pair->s2);
+            foreach($pairs as $pair) {
+                $this->calc($pair->s1);
+                $this->calc($pair->s2);
+            }
+        } else {
+            dump('file doesnt exist');
         }
 
         return Command::SUCCESS;
