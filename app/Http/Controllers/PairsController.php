@@ -15,8 +15,8 @@ class PairsController extends Controller
 
         foreach ($request->pairs as $pair) {
             Pair::create([
-                'symbol1' => $pair->s1,
-                'symbol2' => $pair->s2,
+                'symbol1' => $pair['s1'],
+                'symbol2' => $pair['s2'],
             ]);
         }
 
