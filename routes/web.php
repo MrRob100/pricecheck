@@ -19,7 +19,5 @@ Route::get('/', function () {
 
     dump(json_decode(file_get_contents(public_path() . '/pairs.json')));
 
-    dump(Artisan::call('route:list'));
-
     return view('welcome');
 });
