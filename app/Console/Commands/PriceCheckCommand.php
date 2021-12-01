@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pair;
 use Illuminate\Console\Command;
 
 class PriceCheckCommand extends Command

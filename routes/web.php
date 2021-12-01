@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Pair;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    dd(\App\Models\Pair::all()->toArray());
+    dd(Pair::all()->toArray());
 
     return view('welcome');
 });
