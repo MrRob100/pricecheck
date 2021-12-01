@@ -41,7 +41,7 @@ class PriceCheckCommand extends Command
 
         foreach($pairs as $pair) {
 
-            dd($pairs);
+            dump($pairs);
 
             $this->calc($pair->s1);
             $this->calc($pair->s2);
