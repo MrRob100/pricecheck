@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\PairsController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    dump(Artisan::call('migrate'));
-
     return view('welcome');
 });

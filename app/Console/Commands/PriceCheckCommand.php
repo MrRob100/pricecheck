@@ -37,7 +37,7 @@ class PriceCheckCommand extends Command
      */
     public function handle()
     {
-//            $pairs = Pair::all();
+        $pairs = Pair::all();
 
         foreach($pairs as $pair) {
             $this->calc($pair->s1);
