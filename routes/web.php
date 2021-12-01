@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    dd(\App\Models\Pair::all()->toArray());
+
     return view('welcome');
 });
