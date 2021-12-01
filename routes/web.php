@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PairsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ Route::get('/', function () {
 
     dump(json_decode(file_get_contents(public_path() . '/pairs.json')));
 
-    dump(shell_exec('php artisan route:list'));
+    dump(Artisan::call('route:list'));
 
     return view('welcome');
 });
