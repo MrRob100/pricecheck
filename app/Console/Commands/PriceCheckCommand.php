@@ -42,9 +42,10 @@ class PriceCheckCommand extends Command
         foreach($pairs as $pair) {
 
             dump($pairs);
+            dd($pair->symbol1);
 
-            $this->calc($pair->s1);
-            $this->calc($pair->s2);
+            $this->calc($pair->symbol1);
+            $this->calc($pair->symbol2);
         }
 
         return Command::SUCCESS;
