@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    dump(env('DB_DATABASE'));
+    dump(Artisan::call('migrate'));
 
     return view('welcome');
 });
