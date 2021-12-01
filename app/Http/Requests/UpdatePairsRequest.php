@@ -24,7 +24,7 @@ class UpdatePairsRequest extends FormRequest
     public function rules()
     {
         return [
-            'pairs:array',
+//            'pairs' => 'required|array',
         ];
     }
 }
