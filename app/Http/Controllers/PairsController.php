@@ -8,8 +8,6 @@ class PairsController extends Controller
 {
     public function update(UpdatePairsRequest $request): bool
     {
-        dd($request->all());
-
         if ($request->pairs) {
             file_put_contents(public_path() . '/pairs.json', $request->pairs);
         } else {
