@@ -40,8 +40,11 @@ class PriceCheckCommand extends Command
         $pairs = json_decode(file_get_contents(public_path() . '/pairs.json'), true);
 
         foreach($pairs as $pair) {
-            $this->calc($pair->symbol1);
-            $this->calc($pair->symbol2);
+
+            dd($pairs);
+
+            $this->calc($pair->s1);
+            $this->calc($pair->s2);
         }
 
         return Command::SUCCESS;
