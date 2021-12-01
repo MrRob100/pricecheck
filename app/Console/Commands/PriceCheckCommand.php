@@ -37,17 +37,23 @@ class PriceCheckCommand extends Command
      */
     public function handle()
     {
-        $symbols = ['BNB', 'AKRO', 'OM'];
+        $pairs = json_decode(file_get_contents(public_path() . '/pairs.json'), true);
 
-        foreach($symbols as $symbol) {
-            $candles = json_decode(file_get_contents("https://api.binance.com/api/v3/klines?symbol={$symbol}USDT&interval=1m&limit=60"), true);
-            $hChange = ( $candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
-
-            if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
-                dump("$symbol changed $hChange % last hour");
-            }
+        foreach($pairs as $pair) {
+            $this->calc($pair->symbol1);
+            $this->calc($pair->symbol2);
         }
 
         return Command::SUCCESS;
+    }
+
+    public function calc(string $symbol): void
+    {
+        $candles = json_decode(file_get_contents("https://api.binance.com/api/v3/klines?symbol={$symbol}USDT&interval=1m&limit=60"), true);
+        $hChange = ( $candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
+
+        if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
+            dump("$symbol changed $hChange % last hour");
+        }
     }
 }
