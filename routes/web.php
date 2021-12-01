@@ -16,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    dump(env('DB_DATABASE'));
+
     return view('welcome');
 });
