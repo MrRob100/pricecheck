@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PairsController;
 use App\Models\Pair;
 use Illuminate\Support\Facades\Route;
 

@@ -86,7 +86,7 @@ class PriceCheckCommand extends Command
             '+447849841646',
             array(
                 'from' => '+447458195385',
-                'body' => "$symbols changed $change% last hour"
+                'body' => "$symbols changed > $change% last hour"
             )
         );
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePairsRequest;
 use App\Models\Pair;
+use Twilio\Rest\Client;
 
 class PairsController extends Controller
 {
