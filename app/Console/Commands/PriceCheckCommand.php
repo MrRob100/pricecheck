@@ -58,7 +58,9 @@ class PriceCheckCommand extends Command
             }
         }
 
-        $this->sendMessage(implode(' ', $symbols), env('THRESH'));
+        if (sizeof($symbols) > 0) {
+            $this->sendMessage(implode(' ', $symbols), env('THRESH'));
+        }
 
         return Command::SUCCESS;
     }
