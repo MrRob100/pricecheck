@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Pair;
 use Illuminate\Console\Command;
+use Twilio\Jwt\ClientToken;
+use Twilio\Rest\Client;
 
 class PriceCheckCommand extends Command
 {
@@ -40,21 +42,52 @@ class PriceCheckCommand extends Command
     {
         $pairs = Pair::all();
 
+        $symbols = [];
+
         foreach($pairs as $pair) {
-            $this->calc($pair->symbol1);
-            $this->calc($pair->symbol2);
+
+            $res1 = $this->calc($pair->symbol1);
+            $res2 = $this->calc($pair->symbol2);
+
+            if ($res1) {
+                array_push($symbols, $res1);
+            }
+
+            if ($res2) {
+                array_push($symbols, $res2);
+            }
         }
+
+        $this->sendMessage(implode(' ', $symbols), env('THRESH'));
 
         return Command::SUCCESS;
     }
 
-    public function calc(string $symbol): void
+    public function calc(string $symbol): ?string
     {
         $candles = json_decode(file_get_contents("https://api.binance.com/api/v3/klines?symbol={$symbol}USDT&interval=1m&limit=60"), true);
         $hChange = ( $candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
 
         if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
-            dump("$symbol changed $hChange % last hour");
+            return $symbol;
+        } else {
+            return null;
         }
+    }
+
+    public function sendMessage(string $symbols, int $change): void
+    {
+        $sid = env('TWILIO_SID');
+        $token = env('TWILIO_TOKEN');
+
+        $client = new Client($sid, $token);
+
+        $client->messages->create(
+            '+447849841646',
+            array(
+                'from' => '+447458195385',
+                'body' => "$symbols changed $change% last hour"
+            )
+        );
     }
 }
