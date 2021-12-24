@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Pair;
 use Illuminate\Console\Command;
-use Twilio\Jwt\ClientToken;
 use Twilio\Rest\Client;
 
 class PriceCheckCommand extends Command
@@ -68,7 +67,7 @@ class PriceCheckCommand extends Command
     public function calc(string $symbol): ?string
     {
         $candles = json_decode(file_get_contents("https://api.binance.com/api/v3/klines?symbol={$symbol}USDT&interval=1m&limit=60"), true);
-        $hChange = ( $candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
+        $hChange = ($candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
 
         if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
             return $symbol;
@@ -79,6 +78,7 @@ class PriceCheckCommand extends Command
 
     public function sendMessage(string $symbols, int $change): void
     {
+
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_TOKEN');
 
