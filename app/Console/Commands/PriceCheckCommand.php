@@ -79,6 +79,16 @@ class PriceCheckCommand extends Command
     public function sendMessage(string $symbols, int $change): void
     {
 
+//        https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXX/Balance.json
+// Define the Guzzle Client
+//        $client = new Client();
+//        $response = $client->get($endpoint, [
+//            'auth' => [
+//                $account_sid,
+//                $auth_token
+//            ]
+//        ]);
+
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_TOKEN');
 

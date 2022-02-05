@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PairsController;
+use App\Models\Pair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('sync', [PairsController::class, 'update']);
+
+Route::get('/pairs', function() {
+    return Pair::all()->toArray();
+});
