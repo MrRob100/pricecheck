@@ -24,4 +24,4 @@ Route::post('sync', [PairsController::class, 'update']);
 
 Route::get('/pairs', function() {
     return Pair::all()->toArray();
-});
+})->middleware('cors');
