@@ -41,7 +41,7 @@ class PriceCheckCommand extends Command
     {
         $pairs = Pair::all();
 
-        $symbols = [];
+        $info = [];
 
         foreach($pairs as $pair) {
 
@@ -49,16 +49,16 @@ class PriceCheckCommand extends Command
             $res2 = $this->calc($pair->symbol2);
 
             if ($res1) {
-                array_push($symbols, $res1);
+                array_push($info, $res1);
             }
 
             if ($res2) {
-                array_push($symbols, $res2);
+                array_push($info, $res2);
             }
         }
 
-        if (sizeof($symbols) > 0) {
-            $this->sendMessage(implode(' ', $symbols), env('THRESH'));
+        if (sizeof($info) > 0) {
+            $this->sendMessage(implode(' ', $info));
         }
 
         return Command::SUCCESS;
@@ -70,36 +70,56 @@ class PriceCheckCommand extends Command
         $hChange = ($candles[sizeof($candles) -1][4] - $candles[0][1]) * 100 / $candles[0][1];
 
         if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
-            return $symbol;
+            $rounded = round($hChange, 1);
+            return "$symbol $rounded%";
         } else {
             return null;
         }
     }
 
-    public function sendMessage(string $symbols, int $change): void
+    public function sendMessage(string $info): void
     {
-
-//        https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXX/Balance.json
-// Define the Guzzle Client
-//        $client = new Client();
-//        $response = $client->get($endpoint, [
-//            'auth' => [
-//                $account_sid,
-//                $auth_token
-//            ]
-//        ]);
-
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_TOKEN');
+        $thresh = env('THRESH');
+        $to = env('TO_NUMBER');
+
+        $balance = $this->getBalance($sid, $token);
 
         $client = new Client($sid, $token);
 
         $client->messages->create(
-            '+447849841646',
-            array(
+            $to,
+            [
                 'from' => '+447458195385',
-                'body' => "$symbols changed > $change% last hour"
-            )
+                'body' => "$info thresh: {$thresh}%, twilio balance: £$balance"
+            ]
         );
+    }
+
+    public function getBalance($sid, $token): string
+    {
+        $curl = curl_init();
+
+        $enc = base64_encode("$sid:$token");
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.twilio.com/2010-04-01/Accounts/$sid/Balance.json",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Basic $enc"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response)->balance;
     }
 }
