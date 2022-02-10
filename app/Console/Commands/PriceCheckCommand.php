@@ -71,10 +71,9 @@ class PriceCheckCommand extends Command
 
         if ($hChange > env('THRESH') || - $hChange > env('THRESH')) {
             $rounded = round($hChange, 1);
-            return "$symbol $rounded%";
+            return "$symbol $rounded%,";
         } else {
-            $rounded = round($hChange, 1);
-            return "$symbol $rounded%";
+            return null;
         }
     }
 
