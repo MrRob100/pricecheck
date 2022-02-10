@@ -73,7 +73,8 @@ class PriceCheckCommand extends Command
             $rounded = round($hChange, 1);
             return "$symbol $rounded%";
         } else {
-            return null;
+            $rounded = round($hChange, 1);
+            return "$symbol $rounded%";
         }
     }
 
