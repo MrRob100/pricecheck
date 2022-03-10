@@ -91,7 +91,7 @@ class PriceCheckCommand extends Command
         $client->messages->create(
             $to,
             [
-                'from' => '+447458195385',
+                'from' => env('FROM_NUMBER'),
                 'body' => "$info thresh: {$thresh}%, twilio balance: £$balance"
             ]
         );
